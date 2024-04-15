@@ -15,7 +15,7 @@ public class HurtboxCollider : MonoBehaviour
         if (other.TryGetComponent<CharacterInfo>(out var OtherCharInfo)) {
             //if (targetsHitRecently.Contains(OtherCharInfo)) return; // dont repeat hit
             //Debug.Log("Change HP");
-            OtherCharInfo.ChangeHealth(damageToDeal, dmgAffiliation, senderInfo, 0.5f);
+            OtherCharInfo.ChangeHealth(damageToDeal, dmgAffiliation, senderInfo, stunDuration);
             // targetsHitRecently.Add(OtherCharInfo);
         } 
     }

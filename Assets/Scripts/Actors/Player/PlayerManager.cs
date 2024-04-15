@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public ThirdPersonMovement tpm;
-    public PlayerInfo playerInfo;
+    public PlayerInfo pInfo;
+    public PlayerAnimations pAnim;
 
     
     // Start is called before the first frame update

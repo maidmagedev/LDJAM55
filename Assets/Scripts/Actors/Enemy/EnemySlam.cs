@@ -58,4 +58,7 @@ public class EnemySlam : CharacterInfo
         targetLockOn.targetTransform = target;
     }
 
+    public override void OnTakeDamage(CharacterInfo dealerInfo) {
+        throw new System.NotImplementedException();
+    }
 }

@@ -73,10 +73,11 @@ public abstract class CharacterInfo : MonoBehaviour
         currentHealth -= damageValue;
         GameObject dmgPopUp = Instantiate(Resources.Load<GameObject>("CalledByScript/pf_DMGUI"), transform.position, quaternion.identity);
         dmgPopUp.GetComponent<DamagePopup>().textMesh.text = damageValue.ToString();
+        OnTakeDamage(dealerInfo);
 
         if (stunDuration > this.stunDuration) {
             this.stunDuration = stunDuration; // stuns don't stack hehe
-        }
+        } 
 
         Debug.Log(actorName + " has taken " + damageValue + " damage from " + dealerInfo.actorName);
 
@@ -87,6 +88,8 @@ public abstract class CharacterInfo : MonoBehaviour
         }
         return DamageResponse.dmgTaken;
     }
+
+    public abstract void OnTakeDamage(CharacterInfo dealerInfo);
 
     public void Die() {
         Debug.Log(actorName + " has died");

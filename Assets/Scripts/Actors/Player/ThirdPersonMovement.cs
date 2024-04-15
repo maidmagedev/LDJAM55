@@ -15,7 +15,7 @@ public class ThirdPersonMovement : MonoBehaviour
     bool ignorePlayerInput;
 
     [Header("References")]
-    [SerializeField] Rigidbody rb;
+    public Rigidbody rb;
     [SerializeField] Transform facingDirection;
     private float horizontalInput;
     private float verticalInput;
@@ -89,7 +89,7 @@ public class ThirdPersonMovement : MonoBehaviour
     void Dash() {
 
         Debug.Log("Dash");
-    
+
         StartCoroutine(DashHandler());
         
     }
@@ -98,6 +98,8 @@ public class ThirdPersonMovement : MonoBehaviour
         ignoreSpeedCap = true;
         ignorePlayerInput = true;
         pInfo.hitboxState = CharacterInfo.HitboxState.dodging;
+
+        rb.velocity = Vector3.zero;
 
         float elapsedTime = 0.0f;
         float duration = 0.1f;
