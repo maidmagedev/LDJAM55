@@ -84,7 +84,7 @@ public class PlayerAnimations : MonoBehaviour
             //print("removed run");
             AnimQueueRefresh();
         }
-        if (Input.GetKeyDown(KeyCode.J)) StartCoroutine(DashStupid());
+        if (Input.GetKeyDown(KeyCode.Space)) StartCoroutine(DashSmarter());
         
     }
 
@@ -109,5 +109,37 @@ public class PlayerAnimations : MonoBehaviour
 
         //cinemachine.Follow = oldFollow;
         cinemachine.LookAt = oldLook;
+    }
+
+    IEnumerator DashSmarter() {
+        if (animQueue.Contains(animStates["dashATK"])) yield break;
+        AnimQueueEnqueue(animStates["dashATK"]);
+        dashOverride.CrossFade("dashATK REWORK", 0, 0);
+        float elapsedTime = 0.0f;
+        float duration = 0.7f;
+        bool clicked = false;
+        while (elapsedTime < duration) {
+
+            yield return new WaitForFixedUpdate(); // line up with the dash coroutine in TPM.
+            elapsedTime += Time.deltaTime;
+            if (Input.GetMouseButton(0)) {
+                clicked = true;
+            }
+        }
+        if (!clicked) {
+            dashOverride.CrossFade("initial", 0, 0);
+            animQueue.Remove(animStates["dashATK"]);
+            AnimQueueRefresh();
+            yield break;
+
+        } else {
+            yield return new WaitForSeconds(0.75f);
+
+            animQueue.Remove(animStates["dashATK"]);
+            dashOverride.CrossFade("initial", 0, 0);
+
+            //movement.ignorePlayerInput = false;
+            AnimQueueRefresh();
+        }
     }
 }

@@ -8,11 +8,11 @@ public class RootMotionManager : MonoBehaviour
     [SerializeField] MatchTransforms artAsChild;
     [SerializeField] MatchTransforms rigidbodyAsChild;
     [SerializeField] Transform root;
+    [SerializeField] ThirdPersonMovement tpm;
+    [SerializeField] Transform smear;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void Start() {
+        tpm = FindObjectOfType<ThirdPersonMovement>();
     }
 
     public void RootMotionEnable() {
@@ -78,4 +78,9 @@ public class RootMotionManager : MonoBehaviour
         root.position = transform.position; // drag root
         }
     }
+
+    public void NewMovement() {
+        StartCoroutine(tpm.DashHandlerB());
+    }
+    
 }

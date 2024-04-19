@@ -69,7 +69,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     // Moves player based on input
     void MovePlayer() {
-
+        if (ignorePlayerInput) return;
         rb.AddForce(baseMoveSpeed * 10f * moveDirection, ForceMode.Force);
     }
 
@@ -90,8 +90,8 @@ public class ThirdPersonMovement : MonoBehaviour
 
         Debug.Log("Dash");
 
-        StartCoroutine(DashHandler());
-        
+        //StartCoroutine(DashHandler());
+        //StartCoroutine(DashHandlerB());
     }
 
     IEnumerator DashHandler() {
@@ -113,5 +113,41 @@ public class ThirdPersonMovement : MonoBehaviour
 
         ignoreSpeedCap = false;
         ignorePlayerInput = false;
+    }
+    
+    public IEnumerator DashHandlerB() {
+        //ignoreSpeedCap = true;
+        ignorePlayerInput = true;
+        pInfo.hitboxState = CharacterInfo.HitboxState.dodging;
+
+        rb.velocity = Vector3.zero;
+
+        float elapsedTime = 0.0f;
+        float duration = 0.7f;
+
+        bool clicked = false;
+        float oldMax = maxMoveSpeed;
+        maxMoveSpeed += 5;
+        //ignoreSpeedCap = true;
+        //rb.AddForce(60f * facingDirection.forward, ForceMode.Impulse);
+
+        while (elapsedTime < duration) {
+            if (elapsedTime < 0.5) {
+                rb.AddForce(baseMoveSpeed * 16f * facingDirection.forward, ForceMode.Force);
+            }
+            yield return new WaitForFixedUpdate();
+            elapsedTime += Time.deltaTime;
+            if (Input.GetMouseButton(0)) {
+                clicked = true;
+            }
+        }
+        maxMoveSpeed = oldMax;
+        if (clicked) {
+            yield return new WaitForSeconds(0.75f);
+        }
+        pInfo.hitboxState = CharacterInfo.HitboxState.vulnerable;
+        ignoreSpeedCap = false;
+        ignorePlayerInput = false;
+        
     }
 }
