@@ -12,7 +12,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     [Header("Operational Settings")]
     bool ignoreSpeedCap;
-    bool ignorePlayerInput;
+    public bool ignorePlayerInput;
 
     [Header("References")]
     public Rigidbody rb;
@@ -38,7 +38,7 @@ public class ThirdPersonMovement : MonoBehaviour
             moveDirection = Vector3.zero;
             ignorePlayerInput = true;
         } else {
-            ignorePlayerInput = false;
+            //ignorePlayerInput = false;
         }
         GetInput();
     }

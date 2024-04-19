@@ -1,12 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cinemachine;
 using UnityEngine;
 
 public class PlayerAnimations : MonoBehaviour
 {
     [SerializeField] Animator animator;
+    [SerializeField] Animator dashOverride;
     [SerializeField] ThirdPersonMovement movement;
+    [SerializeField] CinemachineVirtualCamera cinemachine;
+    [SerializeField] Transform trackOverride;
 
     // priority list
     private List<AnimState> animQueue;
@@ -16,7 +20,7 @@ public class PlayerAnimations : MonoBehaviour
         //new animClipInfo{ priority = 0, stateName = "", normalizedTransitionDuration = 0.0f, layer = 0},
         {"idle",new AnimState{ priority = 010, stateName = "idle", normalizedTransitionDuration = 0.00f, layer = 0}},
         {"run", new AnimState{ priority = 050, stateName = "run", normalizedTransitionDuration = 0.00f, layer = 0}},
-        {"dash", new AnimState{ priority = 400, stateName = "dash", normalizedTransitionDuration = 0.00f, layer = 0}},
+        {"dashATK", new AnimState{ priority = 400, stateName = "dashATK", normalizedTransitionDuration = 0.00f, layer = 0}},
         {"stunned", new AnimState{ priority = 500, stateName = "stunned", normalizedTransitionDuration = 0.0f, layer = 0}},
     };
 
@@ -85,12 +89,25 @@ public class PlayerAnimations : MonoBehaviour
     }
 
     IEnumerator DashStupid() {
-        if (animQueue.Contains(animStates["dash"])) yield break;
+        if (animQueue.Contains(animStates["dashATK"])) yield break;
+        movement.ignorePlayerInput = true;
+
+        Transform oldLook = cinemachine.LookAt;
+        Transform oldFollow = cinemachine.Follow;
+
+        //cinemachine.Follow = trackOverride;
+        cinemachine.LookAt = trackOverride;
         
-        AnimQueueEnqueue(animStates["dash"]);
-        yield return new WaitForSeconds(1.5f);
-        animQueue.Remove(animStates["dash"]);
+        AnimQueueEnqueue(animStates["dashATK"]);
+        dashOverride.CrossFade("dashATK", 0, 0);
+        yield return new WaitForSeconds(1.65f);
+        animQueue.Remove(animStates["dashATK"]);
+        dashOverride.CrossFade("initial", 0, 0);
         AnimQueueRefresh();
         FindObjectOfType<RootMotionManager>().RootMotionDisable();
+        movement.ignorePlayerInput = false;
+
+        //cinemachine.Follow = oldFollow;
+        cinemachine.LookAt = oldLook;
     }
 }

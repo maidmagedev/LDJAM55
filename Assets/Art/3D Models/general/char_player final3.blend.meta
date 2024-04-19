@@ -7,6 +7,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: accent
+    second: {fileID: 2100000, guid: 808e474a7f91317428982e650484d763, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: flat black
     second: {fileID: 2100000, guid: 6e83d68b8ebf848438a433bb8958cb94, type: 2}
   - first:
