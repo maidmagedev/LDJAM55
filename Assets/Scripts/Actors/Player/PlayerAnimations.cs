@@ -77,7 +77,7 @@ public class PlayerAnimations : MonoBehaviour
             animQueue.Remove(animStates["stunned"]);
             AnimQueueRefresh();
         }
-        if (movement.moveDirection != Vector3.zero && movement.rb.velocity.magnitude > 0.1f) {
+        if (/* movement.moveDirection != Vector3.zero && */ movement.rb.velocity.magnitude > 2f) {
             AnimQueueEnqueue(animStates["run"]);
         } else {
             animQueue.Remove(animStates["run"]);
