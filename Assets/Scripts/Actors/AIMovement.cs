@@ -8,7 +8,7 @@ public class AIMovement : MonoBehaviour
 {
     [SerializeField] Transform target;
     public NavMeshAgent agent;
-    [SerializeField] LineRenderer lineRenderer;
+    public LineRenderer lineRenderer;
     // Start is called before the first frame update
     void Start()
     {
@@ -61,9 +61,12 @@ public class AIMovement : MonoBehaviour
         agent.SetDestination(target.position);
     }
 
-    public void ResetPath() {
+    public void ClearAgentPath() {
+        Debug.Log("Reset Path");
         lineRenderer.positionCount = 0;
+        agent.ResetPath();
         agent.SetDestination(agent.transform.position);
     }
+
 
 }

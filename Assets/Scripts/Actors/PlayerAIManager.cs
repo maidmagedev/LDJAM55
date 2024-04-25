@@ -33,12 +33,19 @@ public class PlayerAIManager : MonoBehaviour
         if (selectedBot == 0) {
             matchTransforms.enabled = false;
             bots[0].agent.isStopped = false;
+            bots[0].lineRenderer.enabled = true;
             //bots[0].agent.ResetPath();
 
         } else {
             bots[0].agent.isStopped = true;
             matchTransforms.enabled = true;
-            bots[0].agent.ResetPath();
+            bots[0].ClearAgentPath();
+            bots[0].lineRenderer.enabled = false;
+            //Invoke(nameof(ClearFirstAgentPath), 0.05f); // have to do this a second time with delay due to Script EXEC ORDER i think.
         }
+    }
+
+    void ClearFirstAgentPath() {
+        bots[0].ClearAgentPath();
     }
 }
