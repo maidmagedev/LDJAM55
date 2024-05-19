@@ -4090,6 +4090,18 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &1282550568 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3384276714005412007, guid: eb4eeb5e643d28e4eb5749378ea7da92,
+    type: 3}
+  m_PrefabInstance: {fileID: 5868361225474077737}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc6940c071fafed43af5432b0af62436, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1457882632
 Mesh:
   m_ObjectHideFlags: 0
@@ -4777,6 +4789,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 793281212}
+    - target: {fileID: 3432231412258074764, guid: eb4eeb5e643d28e4eb5749378ea7da92,
+        type: 3}
+      propertyPath: pAnimations
+      value: 
+      objectReference: {fileID: 1282550568}
     - target: {fileID: 5967230421917095359, guid: eb4eeb5e643d28e4eb5749378ea7da92,
         type: 3}
       propertyPath: m_LocalPosition.x

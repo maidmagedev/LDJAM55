@@ -6,6 +6,12 @@ using UnityEngine;
 
 public class PlayerAttackSystem : MonoBehaviour
 {
+    [Header("Basic Attack Combo")]
+    public int currentCombo;
+    public bool allowAttack;
+    public bool bufferedAttack;
+    public float idleTime = 0.0f;
+
     [Header("Wrench Projectile")]
     float mouseHeldTime = 0.0f;
     [SerializeField] Transform wrenchSpawnOrigin;
@@ -16,8 +22,13 @@ public class PlayerAttackSystem : MonoBehaviour
     float throwDistMultiplier = 0.0f;
     public float tipLength;
     public AnimationCurve wrenchCurve;
+
+
     [Header("References")]
     [SerializeField] Transform cursor;
+    [SerializeField] PlayerAnimations pAnimations;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -34,7 +45,38 @@ public class PlayerAttackSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Resets combo after threshhold.
+        if (!pAnimations.CurrAnimState.animTags.Contains(PlayerAnimations.AnimTag.AttackString)) {
+            idleTime += Time.deltaTime;
+        } else {
+            idleTime = 0.0f;
+        }
+        if (idleTime > 1.0f) {
+            currentCombo = 0;
+        }
+        AttackComboHandler();
         WrenchThrownHandler();
+    }
+
+    void AttackComboHandler() {
+        if (Input.GetMouseButtonDown(0)) {
+            currentCombo++;
+            switch(currentCombo) {
+                case 1:
+                    pAnimations.AnimQueueEnqueue(pAnimations.animStates["atkA1"]);
+                    break;
+                case 2:
+                    pAnimations.AnimQueueEnqueue(pAnimations.animStates["atkA2"]);
+                    break;
+                case 3:
+                    pAnimations.AnimQueueEnqueue(pAnimations.animStates["atkA3"]);
+                    currentCombo = 0;
+                    break;
+                default:
+                    currentCombo = 0;
+                    break;
+            }
+        }
     }
 
 
@@ -127,5 +169,7 @@ public class PlayerAttackSystem : MonoBehaviour
 
         Destroy(obj);
     }
+
+
 
 }

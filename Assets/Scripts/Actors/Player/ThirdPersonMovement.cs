@@ -12,7 +12,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     [Header("Operational Settings")]
     bool ignoreSpeedCap;
-    public bool ignorePlayerInput;
+    //public bool ignorePlayerInput;
 
     [Header("References")]
     public Rigidbody rb;
@@ -21,6 +21,7 @@ public class ThirdPersonMovement : MonoBehaviour
     private float verticalInput;
     public Vector3 moveDirection;
     public PlayerInfo pInfo;
+    public PlayerAnimations pAnimations;
 
 
 
@@ -36,7 +37,7 @@ public class ThirdPersonMovement : MonoBehaviour
         if (pInfo.stunDuration > 0) {
             pInfo.stunDuration -= Time.deltaTime;
             moveDirection = Vector3.zero;
-            ignorePlayerInput = true;
+            //ignorePlayerInput = true;
         } else {
             //ignorePlayerInput = false;
         }
@@ -50,7 +51,8 @@ public class ThirdPersonMovement : MonoBehaviour
     }
 
     void GetInput() {
-        if (ignorePlayerInput) return;
+        //if (pAnimations.CurrAnimState.animTags.Contains(PlayerAnimations.AnimTag.DenyMovementInputs)) return; // formerly ignorePlayerInput
+
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
@@ -69,7 +71,8 @@ public class ThirdPersonMovement : MonoBehaviour
 
     // Moves player based on input
     void MovePlayer() {
-        if (ignorePlayerInput) return;
+        if (pAnimations.CurrAnimState.animTags.Contains(PlayerAnimations.AnimTag.DenyMovementInputs)) return; // formerly ignorePlayerInput
+
         rb.AddForce(baseMoveSpeed * 10f * moveDirection, ForceMode.Force);
     }
 
@@ -94,30 +97,9 @@ public class ThirdPersonMovement : MonoBehaviour
         //StartCoroutine(DashHandlerB());
     }
 
-    IEnumerator DashHandler() {
-        ignoreSpeedCap = true;
-        ignorePlayerInput = true;
-        pInfo.hitboxState = CharacterInfo.HitboxState.dodging;
-
-        rb.velocity = Vector3.zero;
-
-        float elapsedTime = 0.0f;
-        float duration = 0.1f;
-        while (elapsedTime < duration) {
-            rb.AddForce(2f * facingDirection.forward, ForceMode.Impulse);
-            yield return new WaitForEndOfFrame();
-            elapsedTime += Time.deltaTime;
-        }
-
-        pInfo.hitboxState = CharacterInfo.HitboxState.vulnerable;
-
-        ignoreSpeedCap = false;
-        ignorePlayerInput = false;
-    }
-    
     public IEnumerator DashHandlerB() {
         //ignoreSpeedCap = true;
-        ignorePlayerInput = true;
+        //ignorePlayerInput = true; 
         pInfo.hitboxState = CharacterInfo.HitboxState.dodging;
 
         rb.velocity = Vector3.zero;
@@ -147,7 +129,7 @@ public class ThirdPersonMovement : MonoBehaviour
         }
         pInfo.hitboxState = CharacterInfo.HitboxState.vulnerable;
         ignoreSpeedCap = false;
-        ignorePlayerInput = false;
+        //ignorePlayerInput = false;
         
     }
 }
